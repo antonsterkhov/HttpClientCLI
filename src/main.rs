@@ -106,17 +106,22 @@ fn main() {
 
     match args.command {
         Commands::Get { url, headers } => {
+
             let url = ensure_url_prefix(&url);
             let response = client.get(&url).headers(build_headers(&headers)).send();
             handle_response(response);
         }
         Commands::Post { url, data, file, headers } => {
+
             let url = ensure_url_prefix(&url);
             let response = if let Some(file_path) = file {
+
                 let file_content = fs::read(file_path).expect("Не удалось прочитать файл");
                 let form = multipart::Form::new().part("file", multipart::Part::bytes(file_content));
                 client.post(&url).headers(build_headers(&headers)).multipart(form).send()
+
             } else {
+
                 let mut req = client.post(&url).headers(build_headers(&headers));
                 if let Some(json_data) = data {
                     req = req.header(CONTENT_TYPE, "application/json").body(json_data);
@@ -162,7 +167,7 @@ fn handle_response(response: Result<reqwest::blocking::Response, reqwest::Error>
             }
         }
         Err(e) => {
-            eprintln!("Ошибка запроса: {}\nДетали: {:?}", e, e);
+            eprintln!("Ошибка запроса: {}\n Детали: {:?}", e, e);
         }
     }
 }
