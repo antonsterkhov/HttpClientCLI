@@ -161,10 +161,10 @@ fn handle_response(response: Result<reqwest::blocking::Response, reqwest::Error>
             for (key, value) in resp.headers().iter() {
                 println!("{}: {:?}", key, value);
             }
-            match resp.text() {
+           /*  match resp.text_with_charset("utf-8") {
                 Ok(text) => println!("Ответ:\n{}", text),
                 Err(e) => eprintln!("Ошибка чтения ответа: {}", e),
-            }
+            }*/
         }
         Err(e) => {
             eprintln!("Ошибка запроса: {}\n Детали: {:?}", e, e);
