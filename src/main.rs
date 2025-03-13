@@ -1,38 +1,13 @@
 use clap::{Parser, Subcommand};
 use reqwest::blocking::{Client, multipart};
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue, CONTENT_TYPE};
-use std::collections::HashMap;
+
 use std::fs;
 use std::path::PathBuf;
 use std::time::Duration;
 use anyhow::Result;
 
-/// HTTP CLI: Отправка запросов GET, POST, PUT, DELETE с возможностью добавления заголовков и отправки файлов.
-///
-/// # Примеры использования:
-///
-/// ## GET-запрос:
-/// ```sh
-/// http_client get http://example.com
-/// http_client get example.com -H "User-Agent=MyClient"
-/// ```
-///
-/// ## POST-запрос:
-/// ```sh
-/// http_client post http://example.com -d '{"key": "value"}' -H "Content-Type=application/json"
-/// http_client post example.com -f file.txt
-/// ```
-///
-/// ## PUT-запрос:
-/// ```sh
-/// http_client put http://example.com -d '{"update": true}'
-/// http_client put example.com -f update.txt
-/// ```
-///
-/// ## DELETE-запрос:
-/// ```sh
-/// http_client delete http://example.com
-/// ```
+
 #[derive(Parser)]
 #[command(name = "HttpClientCLI", version = "1.1", about = "CLI для работы с HTTP")]
 struct Cli {
@@ -42,7 +17,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// GET-запрос
+    
     #[command(about = "Отправка GET-запроса на указанный URL.",
         long_about = "Отправляет GET-запрос на указанный URL с возможностью указания заголовков.\n\nПример:\n\nhttp_client get http://example.com\nhttp_client get example.com -H \"User-Agent=MyClient\"")]
     Get {
@@ -53,7 +28,7 @@ enum Commands {
         headers: Vec<(String, String)>,
     },
 
-    /// POST-запрос
+    
     #[command(about = "Отправка POST-запроса с данными или файлом.",
         long_about = "Отправляет POST-запрос на указанный URL. Можно отправить JSON-данные или загрузить файл.\n\nПример с данными:\n\nhttp_client post http://example.com -d '{\"key\": \"value\"}' -H \"Content-Type=application/json\"\n\nПример с файлом:\n\nhttp_client post example.com -f file.txt")]
     Post {
@@ -70,7 +45,7 @@ enum Commands {
         headers: Vec<(String, String)>,
     },
 
-    /// PUT-запрос
+    
     #[command(about = "Отправка PUT-запроса с данными или файлом.",
         long_about = "Отправляет PUT-запрос на указанный URL. Можно отправить обновленные данные в формате JSON или загрузить файл.\n\nПример с данными:\n\nhttp_client put http://example.com -d '{\"update\": true}'\n\nПример с файлом:\n\nhttp_client put example.com -f update.txt")]
     Put {
@@ -87,7 +62,7 @@ enum Commands {
         headers: Vec<(String, String)>,
     },
 
-    /// DELETE-запрос
+    
     #[command(about = "Отправка DELETE-запроса на указанный URL.",
         long_about = "Отправляет DELETE-запрос на указанный URL с возможностью указания заголовков.\n\nПример:\n\nhttp_client delete http://example.com")]
     Delete {
